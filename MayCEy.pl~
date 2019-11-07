@@ -70,7 +70,7 @@ aeronave_aux("Airbus-A340", grande).
 aeronave_aux("Airbus-A380", grande).
 aeronave_auxiliar(A,L):-
     miembro(A,L),
-    aeronave_aux(A).
+    aeronave_aux(A,_).
 
 
 emergencia("Mayday").
@@ -141,6 +141,8 @@ analizar(L):-
     analizar(A)
     ).
 
+% HAY QUE HACER RETRACT DE RESERVACION??? (Creo que no, para guardar las
+% reservaciones)
 analizar(L):-
     (despedida_aux(X,L)->
     write(X),
@@ -246,7 +248,24 @@ io:-
     read(L),
     nl,
     split(L,Result),
-    analizar(Result).
+    analizar(Result),
+    read(L),
+    nl,
+    split(L,Result),
+    analizar(Result),
+    cicloPrograma.
+
+cicloPrograma:-
+    (   datos()->
+    read(L),
+    nl,
+    split(L,Result),
+    analizar(Result),
+    cicloPrograma;
+    asignar()
+    ).
+
+
 
 % Hechos de reserva, usan una string con la pista y un int con l hora en
 % formato militar
@@ -316,7 +335,7 @@ asignar() :- solicitud(aterrizar), direccion("Este-Oeste"), aeronave(X, pequena)
             not(reservacion(_, p2-1, Hora)),
             assertz(reservacion(X, p2-1, Hora)), write("P1 esta ocupada. Puede despegar en la pista P2-1, tiene 5 minutos desde las  "), write(Hora),  write(" tiempo actual.\n").
 
-asignar() :- solicitud(despegar), direccion("Oeste-Eeste"), aeronave(X, pequena),
+asignar() :- solicitud(despegar), direccion("Oeste-Este"), aeronave(X, pequena),
             hora(Hora), not(reservacion(_, p2-2, Hora)),
             assertz(reservacion(X, p2-2, Hora)), write("P1 esta ocupada. Se le a asignado la pista P2-2 para despegar en la hora "), write(Hora), write(".\n").
 

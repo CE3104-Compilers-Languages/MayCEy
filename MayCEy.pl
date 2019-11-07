@@ -68,10 +68,22 @@ aeronave_aux("Airbus-A220", mediana).
 aeronave_aux("Boeing-747", grande).
 aeronave_aux("Airbus-A340", grande).
 aeronave_aux("Airbus-A380", grande).
-aeronave_auxiliar(A,L):-
-    miembro(A,L),
-    aeronave_aux(A).
+aeronave_auxiliar(L,L3):-
+     (miembro("Aeronave",L)->
+   (   nextto("Aeronave",Y,L)->
+   string_concat("Aeronave ",Y,Result),
+       write(Result),
+       nl,
+       asserta(aeronave(Result,mediana)),
+       del("Aeronave",L,L2),
+       del(Y,L2,L3)
+   );
+   false
+   ).
 
+aeronave_auxiliar2(A,B,L):-
+    miembro(A,L),
+    aeronave_aux(A,B).
 
 emergencia("Mayday").
 emergencia("inmediato").
@@ -90,8 +102,6 @@ emergencia_auxiliar(_,"lo pondremos en contacto con la línea de emergencia_auxil
 
 saludo_aux("Hola").
 saludo_aux("hola").
-saludo_aux("Solicito").
-saludo_aux("solicito").
 saludo_aux("MayCEy").
 saludo_aux("Buenas").
 saludo_aux("Buenos").
@@ -234,22 +244,43 @@ analizar(L):-
     analizar(L).
 
 analizar(L):-
-    (aeronave_auxiliar(X,L)->
-    write(X),
+    (aeronave_auxiliar2(A,B,L)->
+    write(A),
     nl,
-    asserta(aeronave(X))
+    asserta(aeronave(A,B))
     ),
     !,
-    del(X,L,A),
-    analizar(A).
+    del(A,L,L2),
+    write(L2),
+    nl,
+    analizar(L2).
+
+
+
+analizar(L):-
+    (   aeronave_auxiliar(L,Lx)->
+    analizar(Lx)
+    ),
+    !,
+    analizar(L).
+
+
+
+analizar(L):-
+    write("No le he comprendido, repita por favor"),
+    nl.
 
 
 io:-
     read(L),
     nl,
     split(L,Result),
-    analizar(Result).
-    %cicloPrograma
+    analizar(Result),
+    read(L),
+    nl,
+    split(L,Result),
+    analizar(Result),
+    cicloPrograma.
 
 cicloPrograma:-
     (   datos()->
@@ -331,7 +362,7 @@ asignar() :- solicitud(aterrizar), direccion("Este-Oeste"), aeronave(X, pequena)
             not(reservacion(_, p2-1, Hora)),
             assertz(reservacion(X, p2-1, Hora)), write("P1 esta ocupada. Puede despegar en la pista P2-1, tiene 5 minutos desde las  "), write(Hora),  write(" tiempo actual.\n").
 
-asignar() :- solicitud(despegar), direccion("Oeste-Eeste"), aeronave(X, pequena),
+asignar() :- solicitud(despegar), direccion("Oeste-Este"), aeronave(X, pequena),
             hora(Hora), not(reservacion(_, p2-2, Hora)),
             assertz(reservacion(X, p2-2, Hora)), write("P1 esta ocupada. Se le a asignado la pista P2-2 para despegar en la hora "), write(Hora), write(".\n").
 
