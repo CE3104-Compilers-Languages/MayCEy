@@ -153,6 +153,7 @@ asignar() :- solicitud(aterrizar), aeronave(X, grande),
             assertz(reservacion(X, p3, Hora)), write("Puede despegar en la pista P3, tiene 5 minutos desde las  "), write(Hora), write(" tiempo actual.\n").
 
 
+asignar() :- write("Lo sentimos ninguna pista se encuentra disponible en este momento, por favor intente en otro momento.\n")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Asignacion de reservacion %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
