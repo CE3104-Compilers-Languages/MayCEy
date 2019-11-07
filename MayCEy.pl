@@ -69,6 +69,8 @@ aeronave_aux("Boeing-747", grande).
 aeronave_aux("Airbus-A340", grande).
 aeronave_aux("Airbus-A380", grande).
 aeronave_auxiliar(L,L3):-
+    write("Entre a aeronave auxiliar"),
+    nl,
      (miembro("Aeronave",L)->
    (   nextto("Aeronave",Y,L)->
    string_concat("Aeronave ",Y,Result),
@@ -82,8 +84,11 @@ aeronave_auxiliar(L,L3):-
    ).
 
 aeronave_auxiliar2(A,B,L):-
+    write("Entre a aeronave auxiliar 2"),
+    nl,
     miembro(A,L),
     aeronave_aux(A,B).
+
 
 emergencia("Mayday").
 emergencia("inmediato").
@@ -149,7 +154,8 @@ analizar(L):-
     del(X,L,A),
     false,
     analizar(A)
-    ).
+    ),
+    !.
 
 % HAY QUE HACER RETRACT DE RESERVACION??? (Creo que no, para guardar las
 % reservaciones)
@@ -190,14 +196,11 @@ analizar(L):-
     (aterrizaje_aux(X,L)->
     write(X),
     nl,
-    aterrizaje(Y),
-    write(Y),
-    nl,
-    asserta(solicitud(aterrizaje))
-    ),
-    !,
+    asserta(solicitud(aterrizaje));
     del(X,L,A),
-    analizar(A).
+    analizar(A)
+    ),
+    !.
 
 analizar(L):-
     (hora_aux(X,L)->
@@ -247,13 +250,13 @@ analizar(L):-
     (aeronave_auxiliar2(A,B,L)->
     write(A),
     nl,
-    asserta(aeronave(A,B))
-    ),
-    !,
+    asserta(aeronave(A,B));
     del(A,L,L2),
     write(L2),
     nl,
-    analizar(L2).
+    analizar(L2)
+    ),
+    !.
 
 
 
@@ -276,10 +279,10 @@ io:-
     nl,
     split(L,Result),
     analizar(Result),
-    read(L),
+    read(L2),
     nl,
-    split(L,Result),
-    analizar(Result),
+    split(L2,Result2),
+    analizar(Result2),
     cicloPrograma.
 
 cicloPrograma:-
@@ -325,16 +328,16 @@ write(Medida),
 writeln("").
 
 % General
-datos() :- not(solicitud(_)), write("Quiere despegar o aterrizar?\n"), read(Y), assertz(solicitud(Y)), datos().
-datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n"), read(Y), aeronave_aux(Y, Peso), assertz(aeronave(Y, Peso)), datos().
+datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n").
 % Si se da una aeronave inexistente, se asume que es mediana
-datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n"), read(Y), not(aeronave_aux(Y, _)), assertz(aeronave(Y, mediana)), datos().
-datos() :- not(identificacion(_)), write("Cual es su matricula?\n"), read(Y), assertz(identificacion(Y)), datos().
-datos() :- not(direccion(_)), write("En que direccion se encuentra?\n"), read(Y), assertz(direccion(Y)), datos().
+datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n").
+datos() :- not(vuelo(_)), write("Cual es su vuelo?\n").
+datos() :- not(matricula(_)), write("Cual es su matricula?\n").
+datos() :- not(direccion(_)), write("En que direccion se encuentra?\n").
 
 % Despegar
-datos() :- not(vuelo(_)), solicitud(despegar), write("Cual es su numero de vuelo?\n"), read(Y), assertz(vuelo(Y)), datos().
-datos() :- not(hora(_)), solicitud(despegar), write("A que hora planea realizar el aterrizaje?\n"), read(Y), assertz(hora(Y)), datos().
+datos() :- not(vuelo(_)), solicitud(despegar), write("Cual es su numero de vuelo?\n"), read(Y), assertz(vuelo(Y)).
+datos() :- not(hora(_)), solicitud(despegar), write("A que hora planea realizar el aterrizaje?\n").
 
 datos().
 
