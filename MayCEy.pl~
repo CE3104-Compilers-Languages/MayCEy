@@ -24,7 +24,7 @@ datos() :- not(hora(_)), solicitud(despegar), write("A que hora planea realizar 
 /* la pista P1 no discrimina en direccion */
 asignar() :- solicitud(despegar), aeronave(X, pequena),
             hora(Hora), not(reservacion(_, p1, Hora)),
-            assertz(reservacion(X, p1, Hora)), write("Se le a asignado la pista P1 para despegar en la hora "), write(Hora), write(".\n"),!.
+            assertz(reservacion(X, p1, Hora)), write("Se le ha asignado la pista P1 para despegar en la hora "), write(Hora), write(".\n"),!.
 
 asignar() :- solicitud(aterrizar), aeronave(X, pequena),
             get_time(T), stamp_date_time(T, date(_,_,_,H,M,_,_,_,_), local), atom_concat(H, M, Hora),

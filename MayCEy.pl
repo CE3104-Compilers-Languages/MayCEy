@@ -150,7 +150,6 @@ aeronave_aux("Airbus-A220", mediana).
 aeronave_aux("Boeing-747", grande).
 aeronave_aux("Airbus-A340", grande).
 aeronave_aux("Airbus-A380", grande).
-aeronave_aux(_, mediana).
 
 emergencia("Mayday").
 emergencia("inmediato").
