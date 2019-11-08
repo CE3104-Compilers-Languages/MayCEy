@@ -325,18 +325,14 @@ write(Medida),
 writeln("").
 
 % General
-datos() :- not(solicitud(_)), write("Quiere despegar o aterrizar?\n"), read(Y), assertz(solicitud(Y)), datos().
-datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n"), read(Y), aeronave_aux(Y, Peso), assertz(aeronave(Y, Peso)), datos().
+datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n").
 % Si se da una aeronave inexistente, se asume que es mediana
-datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n"), read(Y), not(aeronave_aux(Y, _)), assertz(aeronave(Y, mediana)), datos().
-datos() :- not(identificacion(_)), write("Cual es su matricula?\n"), read(Y), assertz(identificacion(Y)), datos().
-datos() :- not(direccion(_)), write("En que direccion se encuentra?\n"), read(Y), assertz(direccion(Y)), datos().
-
+datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n").
+datos() :- not(identificacion(_)), write("Cual es su matricula?\n").
+datos() :- not(direccion(_)), write("En que direccion se encuentra?\n").
 % Despegar
-datos() :- not(vuelo(_)), solicitud(despegar), write("Cual es su numero de vuelo?\n"), read(Y), assertz(vuelo(Y)), datos().
-datos() :- not(hora(_)), solicitud(despegar), write("A que hora planea realizar el aterrizaje?\n"), read(Y), assertz(hora(Y)), datos().
-
-datos().
+datos() :- not(vuelo(_)), solicitud(despegar), write("Cual es su numero de vuelo?\n"), read(Y), assertz(vuelo(Y)).
+datos() :- not(hora(_)), solicitud(despegar), write("A que hora planea realizar el aterrizaje?\n").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Determinacion de pista y hora %%%%%
@@ -430,3 +426,31 @@ asignar() :- write("Lo sentimos ninguna pista se encuentra disponible en este mo
 /*
 reservacion(aeronave, pista, hora).
 */
+
+equal(A,A).
+anal(L):-equal(L,[]),!,writeln("No le entendi").
+anal([X|_]):-saludo_aux(X),!,writeln("Hola pto").
+anal([X|_]):-despedida_aux(X),!,writeln("Adios pto").
+anal([X|_]):-emergencia(X),!,casoEmergencia.
+anal([X|_]):-despegue_aux(X),!,
+    assert(solicitud(despegue)),
+    casoEmergencia.
+anal([_|Y]):-anal(Y).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
