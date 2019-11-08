@@ -154,6 +154,22 @@ aeronave_aux("Boeing-747", grande).
 aeronave_aux("Airbus-A340", grande).
 aeronave_aux("Airbus-A380", grande).
 
+%Autor: Juan
+%Descripción: Tabla de pistas
+%Parámetros: nombre
+pista(P1).
+pista(P21).
+pista(P22).
+pista(P3).
+
+%Autor: Juan
+%Descripción: Tabla de condiciones de aterrizaje
+%Parámetros: nombre
+condicion(viento).
+condicion(peso).
+condicion(largoPista).
+condicion(velocidad).
+
 %Autor: Tomás
 %Descripción: Posibles emergencias
 %Parámetros: string con posibilidades
