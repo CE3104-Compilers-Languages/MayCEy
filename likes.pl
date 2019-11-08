@@ -161,10 +161,10 @@ aeronave_aux("Airbus-A380", grande).
 %Autor: Juan
 %Descripción: Tabla de pistas
 %Parámetros: nombre
-pista(P1).
-pista(P21).
-pista(P22).
-pista(P3).
+pista(p1).
+pista(p21).
+pista(p22).
+pista(p3).
 
 %Autor: Juan
 %Descripción: Tabla de condiciones de aterrizaje
@@ -242,7 +242,6 @@ read(Emergencia),
 emergencia_auxiliar(Emergencia,Medida),
 writeln("Por favor identifiquese"),
 read(ID),
-asignarEmergencia(Pista,700),
 write("Su pista asignada es "),
 write("P3"),
 write(" y "),
