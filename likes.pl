@@ -5,7 +5,9 @@
 :- dynamic aeronave/2.
 :- dynamic direccion/1.
 
-
+%Autor: David
+%Descripción: Determina pregunta a realizar en función de los datos faltantes
+%Parámetros:
 % General
 datos() :- not(solicitud(_)), write("Quiere despegar o aterrizar?\n").
 datos() :- not(aeronave(_,_)), write("Cual es su aeronave?\n").
@@ -19,8 +21,10 @@ datos() :- not(hora(_)), solicitud(despegar), write("A que hora planea realizar 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% Determinacion de pista y hora %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-/* la pista P1 no discrimina en direccion */
 
+%Autor: David
+%Descripción: Con los hechos de vuelo,direccion,... etc. imprime la reservación de la nave
+%Parámetros:
 % Para aeronaves pequenas
 asignar() :- solicitud(despegar), aeronave(X, pequena),
             hora(Hora), not(reservacion(_, p1, Hora)),
